@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "initial-starter",
-    "slug": "initial-starter",
+    "name": "trialview",
+    "slug": "trialview",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
