@@ -1,7 +1,7 @@
-import CustomButton from "@/components/CustomButton";
-import InputField from "@/components/InputField";
-import OAuth from "@/components/OAuth";
-import { icons, images } from "@/constants";
+import CustomButton from "~/components/CustomButton";
+import InputField from "~/components/InputField";
+import OAuth from "~/components/OAuth";
+import { icons, images } from "~/constants";
 import { Link } from "expo-router";
 import { useState } from "react";
 import { Image, ScrollView, Text, View } from "react-native";
@@ -30,7 +30,7 @@ const SignIn = () => {
             placeholder="Enter your Email"
             icon={icons.email}
             value={form.email}
-            onChangeText={(value) => setForm({ ...form, email: value })}
+            onChangeText={(value:string) => setForm({ ...form, email: value })}
           />
           <InputField
             label="Password"
@@ -38,7 +38,7 @@ const SignIn = () => {
             icon={icons.lock}
             secureTextEntry={true}
             value={form.password}
-            onChangeText={(value) => setForm({ ...form, password: value })}
+            onChangeText={(value:string) => setForm({ ...form, password: value })}
           />
           <CustomButton
             title="Sign Up"

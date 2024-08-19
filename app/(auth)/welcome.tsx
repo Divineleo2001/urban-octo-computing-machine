@@ -4,8 +4,9 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { router } from "expo-router";
 import { useRef } from "react";
 import Swiper from "react-native-swiper";
-import { onboarding } from "@/constants";
-import CustomButton from "@/components/CustomButton";
+import { onboarding } from "~/constants";
+import CustomButton from "~/components/CustomButton";
+
 
 const Onboarding = () => {
   const swiperRef = useRef<Swiper>(null);

@@ -1,10 +1,11 @@
-import CustomButton from "@/components/CustomButton";
-import InputField from "@/components/InputField";
-import OAuth from "@/components/OAuth";
-import { icons, images } from "@/constants";
+
 import { Link } from "expo-router";
 import { useState } from "react";
 import { Image, ScrollView, Text, View } from "react-native";
+import CustomButton from "~/components/CustomButton";
+import InputField from "~/components/InputField";
+import OAuth from "~/components/OAuth";
+import { icons, images } from "~/constants";
 
 const SignUp = () => {
   const [form, setForm] = useState({
@@ -31,14 +32,14 @@ const SignUp = () => {
             placeholder="Enter your name"
             icon={icons.person}
             value={form.name}
-            onChangeText={(value) => setForm({ ...form, name: value })}
+            onChangeText={(value: string) => setForm({ ...form, name: value })}
           />
           <InputField
             label="Email"
             placeholder="Enter your Email"
             icon={icons.email}
             value={form.email}
-            onChangeText={(value) => setForm({ ...form, email: value })}
+            onChangeText={(value:string) => setForm({ ...form, email: value })}
           />
           <InputField
             label="Password"
@@ -46,7 +47,7 @@ const SignUp = () => {
             icon={icons.lock}
             secureTextEntry={true}
             value={form.password}
-            onChangeText={(value) => setForm({ ...form, password: value })}
+            onChangeText={(value:string) => setForm({ ...form, password: value })}
           />
           <CustomButton
             title="Sign Up"
@@ -64,6 +65,16 @@ const SignUp = () => {
 
               <Text className="text-primary-500 ">Log in</Text>
             </View>
+            <Link
+            href="/sign-in"
+            className="text-center text-general-200 text-sm "
+          >
+            <View className="flex flex-row items-center gap-2">
+              <Text>dev route home ?</Text>
+
+              <Text className="text-primary-500 ">Dev</Text>
+            </View>
+          </Link>
           </Link>
         </View>
       </View>
