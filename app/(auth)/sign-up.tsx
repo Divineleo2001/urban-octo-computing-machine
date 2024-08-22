@@ -1,21 +1,87 @@
-
-import { Link } from "expo-router";
+import { useSignUp } from "@clerk/clerk-expo";
+import { Link, router } from "expo-router";
 import { useState } from "react";
-import { Image, ScrollView, Text, View } from "react-native";
+import { Alert, Image, ScrollView, Text, View } from "react-native";
+import { ReactNativeModal } from "react-native-modal";
+
 import CustomButton from "~/components/CustomButton";
 import InputField from "~/components/InputField";
 import OAuth from "~/components/OAuth";
 import { icons, images } from "~/constants";
+// import { fetchAPI } from "~/lib/fetch";
 
 const SignUp = () => {
+  const { isLoaded, signUp, setActive } = useSignUp();
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
+
   const [form, setForm] = useState({
     name: "",
     email: "",
     password: "",
   });
 
+  const [verification, setVerification] = useState({
+    state: "pending",
+    error: "",
+    code: "",
+  });
+
   const onSignUpPress = async () => {
-    console.log(form);
+    if (!isLoaded) return;
+    try {
+      await signUp.create({
+        emailAddress: form.email,
+        password: form.password,
+      });
+      await signUp.prepareEmailAddressVerification({ strategy: "email_code" });
+      setVerification({
+        ...verification,
+        state: "pending",
+      });
+    } catch (err: any) {
+      // See https://clerk.com/docs/custom-flows/error-handling
+      // for more info on error handling
+      console.log(JSON.stringify(err, null, 2));
+      Alert.alert("Error", err.errors[0].longMessage);
+    }
+  };
+
+  const onPressVerify = async () => {
+    if (!isLoaded) return;
+    try {
+      const completeSignUp = await signUp.attemptEmailAddressVerification({
+        code: verification.code,
+      });
+      if (completeSignUp.status === "complete") {
+        // await fetchAPI("/(api)/user", {
+        //   method: "POST",
+        //   body: JSON.stringify({
+        //     name: form.name,
+        //     email: form.email,
+        //     clerkId: completeSignUp.createdUserId,
+        //   }),
+        // });
+        await setActive({ session: completeSignUp.createdSessionId });
+        setVerification({
+          ...verification,
+          state: "success",
+        });
+      } else {
+        setVerification({
+          ...verification,
+          error: "Verification failed. Please try again.",
+          state: "failed",
+        });
+      }
+    } catch (err: any) {
+      // See https://clerk.com/docs/custom-flows/error-handling
+      // for more info on error handling
+      setVerification({
+        ...verification,
+        error: err.errors[0].longMessage,
+        state: "failed",
+      });
+    }
   };
   return (
     <ScrollView className="flex-1 bg-white">
@@ -39,7 +105,7 @@ const SignUp = () => {
             placeholder="Enter your Email"
             icon={icons.email}
             value={form.email}
-            onChangeText={(value:string) => setForm({ ...form, email: value })}
+            onChangeText={(value: string) => setForm({ ...form, email: value })}
           />
           <InputField
             label="Password"
@@ -47,7 +113,9 @@ const SignUp = () => {
             icon={icons.lock}
             secureTextEntry={true}
             value={form.password}
-            onChangeText={(value:string) => setForm({ ...form, password: value })}
+            onChangeText={(value: string) =>
+              setForm({ ...form, password: value })
+            }
           />
           <CustomButton
             title="Sign Up"
@@ -55,7 +123,7 @@ const SignUp = () => {
             className="mt-10"
           />
 
-  <OAuth />
+          <OAuth />
           <Link
             href="/sign-in"
             className="text-center text-general-200 text-sm "
@@ -66,15 +134,15 @@ const SignUp = () => {
               <Text className="text-primary-500 ">Log in</Text>
             </View>
             <Link
-            href="/sign-in"
-            className="text-center text-general-200 text-sm "
-          >
-            <View className="flex flex-row items-center gap-2">
-              <Text>dev route home ?</Text>
+              href="/sign-in"
+              className="text-center text-general-200 text-sm "
+            >
+              <View className="flex flex-row items-center gap-2">
+                <Text>dev route home ?</Text>
 
-              <Text className="text-primary-500 ">Dev</Text>
-            </View>
-          </Link>
+                <Text className="text-primary-500 ">Dev</Text>
+              </View>
+            </Link>
           </Link>
         </View>
       </View>
