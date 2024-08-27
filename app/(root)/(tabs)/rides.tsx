@@ -3,9 +3,12 @@ import React from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
 
 const Rides = () => {
+
+
   return (
     <SafeAreaView>
-      <Text>Rides</Text>
+      <Text className='text-xl text-center'>Events</Text>
+
     </SafeAreaView>
   )
 }

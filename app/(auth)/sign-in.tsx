@@ -16,30 +16,33 @@ const SignIn = () => {
     password: "",
   });
 
-  const onSignInPress = useCallback(async () => {
-    if (!isLoaded) {
-      return;
-    }
+  // const onSignInPress = useCallback(async () => {
+  //   if (!isLoaded) {
+  //     return;
+  //   }
 
-    try {
-      const signInAttempt = await signIn.create({
-        identifier: form.email,
-        password: form.password,
-      });
+  //   try {
+  //     const signInAttempt = await signIn.create({
+  //       identifier: form.email,
+  //       password: form.password,
+  //     });
 
-      if (signInAttempt.status === "complete") {
-        await setActive({ session: signInAttempt.createdSessionId });
-        router.replace("/");
-      } else {
-        // See https://clerk.com/docs/custom-flows/error-handling
-        // for more info on error handling
-        console.error(JSON.stringify(signInAttempt, null, 2));
-      }
-    } catch (err: any) {
-      console.error(JSON.stringify(err, null, 2));
-    }
-  }, [isLoaded, form.email, form.password]);
+  //     if (signInAttempt.status === "complete") {
+  //       await setActive({ session: signInAttempt.createdSessionId });
+  //       router.replace("/");
+  //     } else {
+  //       // See https://clerk.com/docs/custom-flows/error-handling
+  //       // for more info on error handling
+  //       console.error(JSON.stringify(signInAttempt, null, 2));
+  //     }
+  //   } catch (err: any) {
+  //     console.error(JSON.stringify(err, null, 2));
+  //   }
+  // }, [isLoaded, form.email, form.password]);
 
+  const onSignInPress = async () => {
+    console.log("clicked")
+  }
   
 
   return (

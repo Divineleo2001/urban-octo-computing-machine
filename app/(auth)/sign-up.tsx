@@ -137,7 +137,7 @@ const SignUp = () => {
               <Text className="text-primary-500 ">Log in</Text>
             </View>
             <Link
-              href="/sign-in"
+              href="/(root)/home"
               className="text-center text-general-200 text-sm "
             >
               <View className="flex flex-row items-center gap-2">
