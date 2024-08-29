@@ -4,7 +4,6 @@ import { Stack } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
 import { useEffect } from "react";
 import "react-native-reanimated";
-import { tokenCache } from "~/lib/auth";
 import { APIProvider } from "./backend/api-provider";
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
@@ -57,7 +56,7 @@ function RootLayoutNav() {
 function Provider({ children }: { children: React.ReactNode }) {
   return (
     <APIProvider>
-      <ClerkProvider tokenCache={tokenCache} publishableKey={publishableKey}>
+      <ClerkProvider publishableKey={publishableKey}>
         <ClerkLoaded>{children}</ClerkLoaded>
       </ClerkProvider>
     </APIProvider>

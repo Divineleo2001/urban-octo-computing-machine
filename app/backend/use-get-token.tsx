@@ -10,7 +10,7 @@ type Variables = {
 type Response = {};
 const url = ""
 
-export const use = createMutation<Response, Variables, AxiosError>({
+export const useGetToken = createMutation<Response, Variables, AxiosError>({
   mutationFn: async (variables) => {
     const response = await axios.post(
       "http://ec2-35-78-87-126.ap-northeast-1.compute.amazonaws.com:8080/api/v1/login",

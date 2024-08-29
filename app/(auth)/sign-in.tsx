@@ -6,6 +6,8 @@ import { Link, useRouter } from "expo-router";
 import { useCallback, useState } from "react";
 import { Image, ScrollView, Text, View } from "react-native";
 import { useSignIn } from "@clerk/clerk-expo";
+import { useAuth } from "~/core/auth";
+import { useGetToken } from "../backend/use-get-token";
 
 const SignIn = () => {
   const { isLoaded, setActive, signIn } = useSignIn();
@@ -15,6 +17,10 @@ const SignIn = () => {
     email: "",
     password: "",
   });
+
+  const signInFunc = useAuth.use.signIn();
+
+  const { mutate: getToken } = useGetToken();
 
   // const onSignInPress = useCallback(async () => {
   //   if (!isLoaded) {
@@ -41,9 +47,20 @@ const SignIn = () => {
   // }, [isLoaded, form.email, form.password]);
 
   const onSignInPress = async () => {
-    console.log("clicked")
-  }
-  
+    console.log(form.email, form.password);
+
+    getToken(
+      { username: form.email, password: form.password },
+      {
+        onSuccess: (data) => {
+          console.log(data);
+        },
+        onError: (error) => {
+          console.log(error);
+        },
+      }
+    );
+  };
 
   return (
     <ScrollView className="flex-1 bg-white">
